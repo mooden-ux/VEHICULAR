@@ -34,7 +34,7 @@ foreach ($fields as $key => $value) {
     $sanitized[$limpiar((string) $key, 60)] = $limpiar((string) ($value ?? ''), 200);
 }
 
-$sanitized['IP'] = (string) ($_SERVER['REMOTE_ADDR'] ?? 'desconocida');
+$sanitized['IP'] = veh_get_ip();
 
 veh_tg_log($config, $event, $sanitized);
 

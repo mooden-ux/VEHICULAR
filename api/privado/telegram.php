@@ -37,6 +37,29 @@ function veh_tg_log(array $config, string $title, array $fields = []): void
     curl_close($ch);
 }
 
+function veh_get_ip(): string
+{
+    $headers = ['HTTP_CF_CONNECTING_IP', 'HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR'];
+    foreach ($headers as $header) {
+        $val = trim((string) ($_SERVER[$header] ?? ''));
+        if ($val === '') continue;
+        $ip = trim(explode(',', $val)[0]);
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return $ip;
+        }
+    }
+    // Fallback: acepta cualquier IP incluyendo privadas (entornos locales)
+    foreach ($headers as $header) {
+        $val = trim((string) ($_SERVER[$header] ?? ''));
+        if ($val === '') continue;
+        $ip = trim(explode(',', $val)[0]);
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return $ip;
+        }
+    }
+    return 'desconocida';
+}
+
 function veh_tg_escape(string $text): string
 {
     return str_replace(['*', '_', '`', '['], ['\\*', '\\_', '\\`', '\\['], $text);

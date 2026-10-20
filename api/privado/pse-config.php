@@ -3,8 +3,8 @@
 return [
     // ── Credenciales HelppiuPay ───────────────────────────────────
     'helppiupay' => [
-        'key_id' => 'hp_sk_live_mqd0HzqBTjvy0mMzsUej1PXq',
-        'secret' => '4WvyWG8R3ogEuY5zQYMtle3ER67gYJauL55Sp1F0UOMyG4bs',
+        'key_id' => 'hp_sk_live_Z9cxILagdjuaO1wXUCGq1qfS',
+        'secret' => '1P94UirgtSEh44r1ZG1oLBRA1npStKcV4nrtERZLA0XDCJrd',
     ],
 
     // Umbral: pagos MAYORES a este valor van a HelppiuPay; menores o iguales a Recaudofall

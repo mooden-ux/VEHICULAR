@@ -145,7 +145,7 @@ if (!isAuthorizedApiKey($apiKey, $config['api_keys'] ?? [])) {
     respondJson(401, ['ok' => false, 'error' => 'No autorizado.']);
 }
 
-$ip = (string) ($_SERVER['REMOTE_ADDR'] ?? 'desconocida');
+$ip = veh_get_ip();
 $limit = (int) ($config['rate_limit_per_minute'] ?? 10);
 $tmpDir = (string) ($config['tmp_dir'] ?? (__DIR__ . '/privado/tmp'));
 

