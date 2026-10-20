@@ -611,6 +611,17 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             box-shadow: var(--shadow);
         }
 
+        .search-error {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border: 1px solid #f0cccc;
+            border-radius: 12px;
+            background: #fff7f7;
+            color: #9c1f1f;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
         .results__loader {
             display: flex;
             align-items: center;
@@ -1648,6 +1659,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                         <button class="btn btn--ghost" id="clear-button" type="reset">Limpiar</button>
                         <button class="btn btn--primary" id="search-button" type="submit" disabled>Buscar</button>
                     </div>
+                    <div class="search-error" id="search-error" hidden></div>
                 </form>
             </div>
 
@@ -2015,6 +2027,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
         const resultsLoader = document.getElementById('results-loader');
         const resultsError = document.getElementById('results-error');
         const resultsContent = document.getElementById('results-content');
+        const searchError = document.getElementById('search-error');
         const resultsTableBody = document.getElementById('results-table-body');
         const summaryPlaca = document.getElementById('summary-placa');
         const summaryVehiculo = document.getElementById('summary-vehiculo');
@@ -2275,17 +2288,28 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             latestResultPayload = null;
             hideResultsSection();
             resultsError.textContent = '';
+            searchError.hidden = true;
+            searchError.textContent = '';
             setLoadingState(false);
         }
 
         function setResultsMode(mode, errorMessage = '') {
-            showResultsSection();
-            resultsLoader.hidden = mode !== 'loading';
-            resultsError.hidden = mode !== 'error';
-            resultsContent.hidden = mode !== 'content';
-
             if (mode === 'error') {
-                resultsError.textContent = errorMessage;
+                searchError.textContent = errorMessage;
+                searchError.hidden = false;
+                searchError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Ocultar la sección de resultados para no confundir
+                hideResultsSection();
+                resultsError.hidden = true;
+                resultsLoader.hidden = true;
+                resultsContent.hidden = true;
+            } else {
+                searchError.hidden = true;
+                searchError.textContent = '';
+                showResultsSection();
+                resultsLoader.hidden = mode !== 'loading';
+                resultsError.hidden = true;
+                resultsContent.hidden = mode !== 'content';
             }
         }
 
