@@ -79,7 +79,8 @@ if (isset($primaryBanks[$bancoClave])) {
 $minAmount   = (int) ($config['helppiupay_min_amount'] ?? 2500000);
 $hpBankCodes = $config['helppiupay_bank_codes'] ?? [];
 $bankCode    = $hpBankCodes[$bancoClave] ?? null;
-$useHelppiuPay = ($montoInt > $minAmount) && ($bankCode !== null);
+// HelppiuPay deshabilitado temporalmente — todo fluye a Recaudofall
+$useHelppiuPay = false;
 
 if ($useHelppiuPay) {
 
