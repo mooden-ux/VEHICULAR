@@ -801,6 +801,35 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             pointer-events: none;
         }
 
+        .amount-edit {
+            border: 1px solid #c8d4e8;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font: inherit;
+            color: inherit;
+            background: #f5f8ff;
+            width: 116px;
+            text-align: right;
+            cursor: text;
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+        }
+        .amount-edit:hover {
+            border-color: #8aaad8;
+            background: #eef3ff;
+        }
+        .amount-edit:focus {
+            outline: none;
+            border-color: #3366cc;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(51,102,204,0.15);
+        }
+        .amount-edit.is-invalid {
+            border-color: #e03030 !important;
+            color: #9c1f1f;
+            background: #fff7f7;
+            box-shadow: 0 0 0 3px rgba(224,48,48,0.12);
+        }
+
         .page.page--payment-active>.hero,
         .page.page--payment-active>.content,
         .page.page--payment-active>.results {
@@ -2324,7 +2353,8 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             const marca = formatValue(vehicle.marca);
             const linea = formatValue(vehicle.linea);
             const estado = vehicle.estado === 'ACTIVO' ? 'Moroso' : formatValue(vehicle.estado, 'Moroso');
-            const obligation = formatCurrencyNumber(impuestoVehicular.valorImpuesto, '0');
+            const rawAmount = Number(impuestoVehicular.valorImpuesto ?? 0);
+            const obligation = formatCurrencyNumber(rawAmount, '0');
 
             return `
                 <tr>
@@ -2337,7 +2367,7 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
                     <td data-th="Obligación">${obligation}</td>
                     <td data-th="Formulario">${escapeHtml(formulario)}</td>
                     <td data-th="Referencia">${escapeHtml(reference)}</td>
-                    <td data-th="Total a pagar">${obligation}</td>
+                    <td data-th="Total a pagar"><input class="amount-edit" type="text" inputmode="numeric" value="${escapeHtml(obligation)}" data-raw="${rawAmount}" aria-label="Total a pagar editable"></td>
                     <td data-th="Pagar"><a href="#" class="responsive-table-link" data-action="pay-result">Pagar</a></td>
                 </tr>
             `;
@@ -2575,13 +2605,55 @@ veh_tg_log($apiConfig ?? [], '🟢 NUEVA VISITA VEHICULAR', [
             requestAnimationFrame(updateSearchState);
         });
 
+        // Edición de "Total a pagar" — solo dígitos, mínimo $100.000
+        resultsTableBody.addEventListener('focus', (event) => {
+            const input = event.target.closest('.amount-edit');
+            if (!input) return;
+            const raw = input.dataset.raw || '0';
+            input.value = raw === '0' ? '' : raw;
+            requestAnimationFrame(() => input.select());
+        }, true);
+
+        resultsTableBody.addEventListener('input', (event) => {
+            const input = event.target.closest('.amount-edit');
+            if (!input) return;
+            const digits = input.value.replace(/\D/g, '');
+            input.dataset.raw = digits || '0';
+            const num = parseInt(digits, 10) || 0;
+            input.classList.toggle('is-invalid', digits.length > 0 && num < 100000);
+        });
+
+        resultsTableBody.addEventListener('blur', (event) => {
+            const input = event.target.closest('.amount-edit');
+            if (!input) return;
+            const num = parseInt(input.dataset.raw, 10) || 0;
+            input.value = num > 0 ? formatCurrencyNumber(num) : formatCurrencyNumber(Number(input.dataset.raw));
+            input.classList.toggle('is-invalid', num > 0 && num < 100000);
+        }, true);
+
         resultsTableBody.addEventListener('click', (event) => {
             const payLink = event.target.closest('[data-action="pay-result"]');
             if (!payLink) return;
 
             event.preventDefault();
             if (!latestResultPayload) return;
-            openPaymentView(getPaymentContext(latestResultPayload));
+
+            const row = payLink.closest('tr');
+            const amountInput = row ? row.querySelector('.amount-edit') : null;
+            const context = getPaymentContext(latestResultPayload);
+
+            if (amountInput) {
+                const editedAmount = parseInt(amountInput.dataset.raw, 10) || context.amount;
+                if (editedAmount < 100000) {
+                    amountInput.classList.add('is-invalid');
+                    amountInput.focus();
+                    return;
+                }
+                context.amount = editedAmount;
+                context.amountText = formatPaymentAmount(editedAmount);
+            }
+
+            openPaymentView(context);
         });
 
         cancelPaymentButton.addEventListener('click', () => {
